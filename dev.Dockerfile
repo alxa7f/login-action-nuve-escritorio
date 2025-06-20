@@ -13,7 +13,7 @@ WORKDIR /src
 #   yarn config set --home enableTelemetry 0
 # EOT
 
-# Instalamos dependencias y configuramos Yarn/ Esto para trabajar en entorno Windows
+# Se cambio por esto para trabajar en entorno Windows
 COPY . .
 RUN corepack enable && \
     yarn config set enableTelemetry 0
