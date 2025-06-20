@@ -5,12 +5,18 @@ ARG NODE_VERSION=20
 FROM node:${NODE_VERSION}-alpine AS base
 RUN apk add --no-cache cpio findutils git
 WORKDIR /src
-RUN --mount=type=bind,target=.,rw \
-  --mount=type=cache,target=/src/.yarn/cache <<EOT
-  corepack enable
-  yarn --version
-  yarn config set --home enableTelemetry 0
-EOT
+#Se comenta esta linea que trabaja en entorno linux
+# RUN --mount=type=bind,target=.,rw \
+#   --mount=type=cache,target=/src/.yarn/cache <<EOT
+#   corepack enable
+#   yarn --version
+#   yarn config set --home enableTelemetry 0
+# EOT
+
+# Instalamos dependencias y configuramos Yarn/ Esto para trabajar en entorno Windows
+COPY . .
+RUN corepack enable && \
+    yarn config set enableTelemetry 0
 
 FROM base AS deps
 RUN --mount=type=bind,target=.,rw \
